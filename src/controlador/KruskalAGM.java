@@ -62,6 +62,10 @@ public class KruskalAGM {
 			}
 		}
 		
+		if (grafo.getCantidadDeVertices() > 1 && aristasAGM.size() != grafo.getCantidadDeVertices() - 1) {
+			throw new IllegalArgumentException("el grafo no es conexo. No es posible armar un AGM");
+		}
+		
 		return aristasAGM;
 	}
 
