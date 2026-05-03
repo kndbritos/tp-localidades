@@ -46,7 +46,7 @@ public class KruskalAGM {
 		List<AristaConPeso> aristasOrdenadas = new ArrayList<>(grafo.getAristas());
 		Collections.sort(aristasOrdenadas);
 		
-		inicializarUnionFind(grafo.getCantidadDeAristas());
+		inicializarUnionFind(grafo.getTamanio());
 		
 		for (AristaConPeso arista : aristasOrdenadas) {
 			int origen = arista.getOrigen();
@@ -56,13 +56,13 @@ public class KruskalAGM {
 				aristasAGM.add(arista);
 				unir(origen, destino);
 				
-				if (aristasAGM.size() == grafo.getCantidadDeVertices() - 1) {
+				if (aristasAGM.size() == grafo.getTamanio() - 1) {
 					break;
 				}
 			}
 		}
 		
-		if (grafo.getCantidadDeVertices() > 1 && aristasAGM.size() != grafo.getCantidadDeVertices() - 1) {
+		if (grafo.getTamanio() > 1 && aristasAGM.size() != grafo.getTamanio() - 1) {
 			throw new IllegalArgumentException("el grafo no es conexo. No es posible armar un AGM");
 		}
 		

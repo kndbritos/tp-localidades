@@ -26,7 +26,7 @@ public class GrafoConPeso {
 	
 	public int getTamanio()
 	{
-		return cantidadVertices;
+		return this.cantidadVertices;
 	}
 	
 	public int getCantidadDeAristas() 
@@ -57,7 +57,4 @@ public class GrafoConPeso {
 		}
 	}
 
-	public int getCantidadDeVertices() {
-		return this.cantidadVertices;
-	}
 }
