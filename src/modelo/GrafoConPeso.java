@@ -24,17 +24,17 @@ public class GrafoConPeso {
 		aristas.add(new AristaConPeso(origen, destino,peso));
 	}
 	
-	public int tamanio()
+	public int getTamanio()
 	{
 		return cantidadVertices;
 	}
 	
-	public int cantidadDeAristas() 
+	public int getCantidadDeAristas() 
 	{
 		return aristas.size();	
 	}
 	
-	public ArrayList<AristaConPeso> obtenerAristas()
+	public ArrayList<AristaConPeso> getAristas()
 	{
 		return aristas;
 	}
@@ -55,5 +55,9 @@ public class GrafoConPeso {
 		if(i == j) {
 			throw new IllegalArgumentException("No se permiten Loops");
 		}
+	}
+
+	public int getCantidadDeVertices() {
+		return this.cantidadVertices;
 	}
 }
