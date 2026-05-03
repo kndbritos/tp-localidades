@@ -9,7 +9,7 @@ public class ResultadoPlanificacion {
 			
 			public ResultadoPlanificacion(Set<AristaConPeso> conexiones, double costoTotal) {
 				this.conexiones = conexiones;
-				this.costoTotal =costoTotal;
+				this.costoTotal = costoTotal;
 			}
 			
 			public Set<AristaConPeso> getConexiones(){
