@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.List;
+
 import java.util.Set;
 
 public class ResultadoPlanificacion {

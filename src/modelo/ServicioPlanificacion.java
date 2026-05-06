@@ -13,13 +13,13 @@ public class ServicioPlanificacion {
 		GrafoConPeso grafo = new GrafoConPeso(localidades.size());
 		
 		for (int i = 0; i < localidades.size(); i++) {
-			for (int j = 0; j < localidades.size(); j++) {
+			for (int j = i+1; j < localidades.size(); j++) {
 				Localidad origen = localidades.get(i);
 				Localidad destino = localidades.get(j);
 				
 				double costoFinal = calculadora.calcularCostoConexion(origen, destino, precioPorKm);
 				
-				grafo.agregarArista(i, i, costoFinal);
+				grafo.agregarArista(i, j, costoFinal);
 			}
 		}
 		
