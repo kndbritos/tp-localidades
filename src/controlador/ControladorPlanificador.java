@@ -23,8 +23,13 @@ public class ControladorPlanificador {
 	
 	public void agregarLocalidad(String nombre, String provincia, String latitudText, String longitudText)
 	{
+		validarLocalidadDuplicada(nombre,provincia);
+		validarNombre(nombre);
+		validarProvincia(provincia);
 		validarCoordenada(latitudText);
 		validarCoordenada(longitudText);
+
+		
 						
 		double latitud = Double.parseDouble(latitudText);
 		double longitud = Double.parseDouble(longitudText);
@@ -52,6 +57,10 @@ public class ControladorPlanificador {
 		{
 			throw new IllegalArgumentException("Las coordenadas deben escribirse con '.', no con ','");
 		}
+		if(!coordenadaText.matches("-?\\d+(\\.\\d+)?")) {
+			throw new IllegalArgumentException("La coordenada solo puede ser numerica");
+		}
+
 	}
 
 	private void validarCantidadDeLocalidadesCargadas() {
@@ -60,6 +69,32 @@ public class ControladorPlanificador {
 			throw new IllegalArgumentException("Para poder planificar conexiones debe haber minimo 2 localidades cargadas");
 		}
 	}
+	
+	private void validarNombre(String nombre){
+		if (nombre==null || nombre.isBlank()) {
+			throw new IllegalArgumentException("El nombre no puede estar vacio");
+		}
+		if(!nombre.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
+			throw new IllegalArgumentException("El nombre solo puede contener letras");
+		}
+	}
+	
+	private void validarProvincia(String provincia) {
+		if (provincia==null || provincia.isBlank()) {
+			throw new IllegalArgumentException("La provincia no puede estar vacia");
+		}
+		if(!provincia.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
+			throw new IllegalArgumentException("La provincia solo puede contener letras");
+		}
+	}
 
+	private void validarLocalidadDuplicada(String nombre,String provincia) {
+		for(Localidad localidad : localidades) {
+			if(localidad.getNombre().equalsIgnoreCase(nombre) && localidad.getProvincia().equalsIgnoreCase(provincia)) {
+				 throw new IllegalArgumentException("La localidad ya fue cargada");
+			}
+		}
+	}
 
+	
 }

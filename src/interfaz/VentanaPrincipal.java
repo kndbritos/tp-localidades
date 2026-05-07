@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 
@@ -111,6 +113,10 @@ public class VentanaPrincipal {
 		frame.getContentPane().add(textLongitud);
 		textLongitud.setColumns(10);
 		
+		/*JLabel lblError = new JLabel("");
+		lblError.setBounds(80,280, 400,20);
+		frame.getContentPane().add(lblError);*/
+		
 		JButton btnAgregarLocalidad = new JButton("Agregar localidad");
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -119,10 +125,28 @@ public class VentanaPrincipal {
 				String provincia = textProvincia.getText();
 				String latitud = textLatitud.getText();
 				String longitud = textLongitud.getText();
-				
-				controlador.agregarLocalidad(nombre, provincia, latitud, longitud);
-				actualizarLocalidadesCargadas();
-				limpiarCampos(); //Una vez que tengo todas las localidades, lo limpio 
+				try {
+
+				    controlador.agregarLocalidad(
+				            nombre,
+				            provincia,
+				            latitud,
+				            longitud);
+
+				    actualizarLocalidadesCargadas();
+
+				    limpiarCampos();
+
+				   // lblError.setText("");
+
+				} catch (IllegalArgumentException ex) {
+
+					 JOptionPane.showMessageDialog(
+					            frame,
+					            ex.getMessage(),
+					            "Error",
+					            JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 			private void actualizarLocalidadesCargadas() {
@@ -163,6 +187,7 @@ public class VentanaPrincipal {
 		btnPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnPlanificar.setBounds(282, 216, 195, 23);
 		frame.getContentPane().add(btnPlanificar);
+		
 		
 	}
 }
