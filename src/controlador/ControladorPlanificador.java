@@ -71,7 +71,7 @@ public class ControladorPlanificador {
 	}
 	
 	private void validarNombre(String nombre){
-		if (nombre==null || nombre.isBlank()) {
+		if (nombre==null || nombre.isEmpty()) {
 			throw new IllegalArgumentException("El nombre no puede estar vacio");
 		}
 		if(!nombre.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
@@ -80,7 +80,7 @@ public class ControladorPlanificador {
 	}
 	
 	private void validarProvincia(String provincia) {
-		if (provincia==null || provincia.isBlank()) {
+		if (provincia==null || provincia.isEmpty()) {
 			throw new IllegalArgumentException("La provincia no puede estar vacia");
 		}
 		if(!provincia.matches("[a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò— ]+")) {
@@ -90,10 +90,14 @@ public class ControladorPlanificador {
 
 	private void validarLocalidadDuplicada(String nombre,String provincia) {
 		for(Localidad localidad : localidades) {
-			if(localidad.getNombre().equalsIgnoreCase(nombre) && localidad.getProvincia().equalsIgnoreCase(provincia)) {
+			if(localidad.getNombre().trim().equalsIgnoreCase(nombre.trim()) && localidad.getProvincia().trim().equalsIgnoreCase(provincia.trim())) {
 				 throw new IllegalArgumentException("La localidad ya fue cargada");
 			}
 		}
+	}
+
+	public void reiniciar() {
+		localidades.clear();
 	}
 
 	

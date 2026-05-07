@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -113,10 +114,6 @@ public class VentanaPrincipal {
 		frame.getContentPane().add(textLongitud);
 		textLongitud.setColumns(10);
 		
-		/*JLabel lblError = new JLabel("");
-		lblError.setBounds(80,280, 400,20);
-		frame.getContentPane().add(lblError);*/
-		
 		JButton btnAgregarLocalidad = new JButton("Agregar localidad");
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -136,8 +133,6 @@ public class VentanaPrincipal {
 				    actualizarLocalidadesCargadas();
 
 				    limpiarCampos();
-
-				   // lblError.setText("");
 
 				} catch (IllegalArgumentException ex) {
 
@@ -163,12 +158,7 @@ public class VentanaPrincipal {
 				lblLocalidadesCargadas.setText(texto);
 			}
 
-			private void limpiarCampos() {
-				textNombreLocalidad.setText("");
-				textProvincia.setText("");
-				textLatitud.setText("");
-				textLongitud.setText("");
-			}
+			
 
 		});
 		btnAgregarLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -185,9 +175,28 @@ public class VentanaPrincipal {
 			}
 		});
 		btnPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnPlanificar.setBounds(282, 216, 195, 23);
+		btnPlanificar.setBounds(160, 290, 245, 23);
 		frame.getContentPane().add(btnPlanificar);
 		
-		
+		JButton btnReiniciar = new JButton("Reiniciar");	
+		btnReiniciar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				controlador.reiniciar();
+				limpiarCampos();
+				lblLocalidadesCargadas.setText("Localidades cargadas: ninguna");
+		        lblCostoTotal.setText("Costo total: $ -");				
+			}
+		});
+			
+		btnReiniciar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnReiniciar.setBounds(280, 216, 195, 23);
+		frame.getContentPane().add(btnReiniciar);	
+		}
+	 private void limpiarCampos() {
+		textNombreLocalidad.setText("");
+		textProvincia.setText("");
+		textLatitud.setText("");
+		textLongitud.setText("");
 	}
 }

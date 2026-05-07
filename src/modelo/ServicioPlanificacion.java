@@ -1,6 +1,8 @@
 package modelo;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Set;
 import controlador.KruskalAGM;
@@ -44,9 +46,13 @@ public class ServicioPlanificacion {
         for (AristaConPeso arista : conexiones) {
             total += arista.getPeso();
         }
+        
+        BigDecimal totalRedondeado =
+                new BigDecimal(total)
+                        .setScale(2,
+                                RoundingMode.HALF_UP);
 
-        return total;
+        return totalRedondeado.doubleValue();
     }
-    
     
 }
