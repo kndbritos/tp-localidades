@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.Set;
 
-import controlador.KruskalAGM;
 import modelo.AristaConPeso;
 import modelo.GrafoConPeso;
+import modelo.KruskalAGM;
 
 public class KruskalAGMTest {
 
