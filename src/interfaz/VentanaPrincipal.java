@@ -152,10 +152,8 @@ public class VentanaPrincipal {
 				    marcador.getStyle().setColor(Color.blue);
 					
 				    marcador.setName(ultima.getNombre());
-					
 
 					mapa.addMapMarker(marcador);
-
 
 				} catch (IllegalArgumentException ex) {
 
@@ -165,8 +163,7 @@ public class VentanaPrincipal {
 					            "Error",
 					            JOptionPane.ERROR_MESSAGE);
 				}
-				
-				
+					
 			}
 
 			private void actualizarLocalidadesCargadas() {
@@ -193,33 +190,32 @@ public class VentanaPrincipal {
 			{
 				ResultadoPlanificacion resultado = controlador.planificar();
 				
-				for(AristaConPeso arista
-				        : resultado.getConexiones()) {
-
-				    Localidad origen =
-				            controlador.getLocalidades()
-				                    .get(arista.getOrigen());
-
-				    Localidad destino =
-				            controlador.getLocalidades()
-				                    .get(arista.getDestino());
-
-				    List<Coordinate> coords =new ArrayList<>();
-
-				    coords.add(new Coordinate(origen.getLatitud(),origen.getLongitud()));
-
-				    coords.add(new Coordinate(destino.getLatitud(),destino.getLongitud()));
-
-				    MapPolygon linea = new MapPolygonImpl(coords);
-
-				    mapa.addMapPolygon(linea);
-				    mapa.repaint();
-				}
+				dibujarConexiones(mapa, resultado);
 				
 				double costo = resultado.getCostoTotal();
 				lblCostoTotal.setText("Costo total: $" + costo);
 			}
+
+			private void dibujarConexiones(JMapViewer mapa, ResultadoPlanificacion resultado) {
+				for(AristaConPeso arista : resultado.getConexiones()) {
+					
+					Localidad origen = controlador.getLocalidades().get(arista.getOrigen());
+					Localidad destino = controlador.getLocalidades().get(arista.getDestino());
+
+				    List<Coordinate> coords =new ArrayList<>();
+
+				    coords.add(new Coordinate(origen.getLatitud(),origen.getLongitud()));
+				    coords.add(new Coordinate(destino.getLatitud(),destino.getLongitud()));
+				    //Como la funcion del poligono dibuja una figura cerrada, la fuerzo repitiendo una de las coordenadas
+				    coords.add(new Coordinate(destino.getLatitud(),destino.getLongitud()));
+
+				    MapPolygon linea = new MapPolygonImpl(coords);
+				    mapa.addMapPolygon(linea);
+				    mapa.repaint();
+				}
+			}
 		});
+		
 		btnPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnPlanificar.setBounds(160, 290, 245, 23);
 		panelIzquierdo.add(btnPlanificar);
