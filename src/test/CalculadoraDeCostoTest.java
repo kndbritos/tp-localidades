@@ -18,6 +18,7 @@ public class CalculadoraDeCostoTest {
 	private Localidad marDelPlata;
 	private double costoFijo;
 	private double porcentajeRecargo;
+	private double margenDeError;
 
 	@Before
 	public void setUp() {
@@ -31,6 +32,7 @@ public class CalculadoraDeCostoTest {
 		
 		costoFijo = 20000;
 		porcentajeRecargo = 0.40;
+		margenDeError = 10;
 	}
 	
 	//Distancia entre Bs As y Rosario: aprox 290 km
@@ -47,17 +49,19 @@ public class CalculadoraDeCostoTest {
 		assertTrue(costo < costoFijo);
 	}
 	
-	//Distancia entre Bs As y Cordoba: aprox 647 km
+	//Distancia entre Bs As y Cordoba: aprox 647 km - 
 	@Test
 	public void distintaProvinciaConMas300kmTienenPorcentajeyCostoFijoTest() {
 		double costo = calculadora.calcularCostoConexion(buenosAires, cordoba, 1);
-		assertTrue(costo > costoFijo + 647 * porcentajeRecargo);
+		double costoEsperado = costoFijo + 647 + 647 * porcentajeRecargo;
+		assertEquals(costoEsperado, costo, margenDeError);
 	}
 	
 	//Distancia entre Bs As y MarDelPlata: aprox 381 km
 	@Test
 	public void mismaProvinciaConMas300kmTienenPorcentajeyNoCostoFijoTest() {
 		double costo = calculadora.calcularCostoConexion(buenosAires, marDelPlata, 1);
-		assertTrue(costo > 381 * porcentajeRecargo);
+		double costoEsperado = 381 + 381 * porcentajeRecargo;
+		assertEquals(costoEsperado, costo, margenDeError);
 	}
 }
