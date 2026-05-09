@@ -5,7 +5,7 @@ public class CalculadoraDeCosto {
 	private static final int RADIO_TIERRA = 6371;
 	private static final double costoFijo = 20000;
 	private static final double porcentajeRecargo = 0.40;
-	private static final double distanciaParaRecargo = 0.40;
+	private static final double distanciaParaRecargo = 300;
 	
 	// Formula de Haversine para calcular distancia en km entre 2 coordenadas reales
 	private double calcularDistanciaEnKm(Localidad loc1, Localidad loc2) {

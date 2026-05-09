@@ -49,7 +49,7 @@ public class ControladorPlanificador {
 	
 	//Validaciones para la interfaz
 	private void validarCoordenada(String coordenadaText) {
-		if (coordenadaText.isEmpty() || coordenadaText == null) 
+		if (coordenadaText == null || coordenadaText.isEmpty()) 
 		{
 			throw new IllegalArgumentException("La coordenada no puede estar vacia");
 		}
