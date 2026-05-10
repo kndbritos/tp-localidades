@@ -1,7 +1,10 @@
 package controlador;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import modelo.ArchivoLocalidades;
 import modelo.GrafoConPeso;
 import modelo.Localidad;
 import modelo.ResultadoPlanificacion;
@@ -9,15 +12,17 @@ import modelo.ServicioPlanificacion;
 
 public class ControladorPlanificador {
 	
-	private ArrayList<Localidad> localidades;
+	private List<Localidad> localidades;
 	private ServicioPlanificacion servicio;
+	private ArchivoLocalidades archivoLocalidades;
 	
 	public ControladorPlanificador() {
 		this.localidades = new ArrayList<Localidad>();
 		this.servicio = new ServicioPlanificacion();
+		this.archivoLocalidades = new ArchivoLocalidades("localidades.json");
 	}
 	
-	public ArrayList<Localidad> getLocalidades(){
+	public List<Localidad> getLocalidades(){
 		return localidades;
 	}
 	
@@ -98,6 +103,28 @@ public class ControladorPlanificador {
 
 	public void reiniciar() {
 		localidades.clear();
+	}
+
+	public void guardarEnArchivo() {
+		try {
+			
+			this.archivoLocalidades.guardar(localidades);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void cargarDesdeArchivo() {
+		try {
+			
+			this.localidades = this.archivoLocalidades.cargar();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 
 	

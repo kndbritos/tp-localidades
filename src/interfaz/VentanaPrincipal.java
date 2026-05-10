@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
@@ -68,6 +69,24 @@ public class VentanaPrincipal {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 		
+		controlador.cargarDesdeArchivo();
+		
+		List <Localidad> localidadesCargadas = controlador.getLocalidades();
+		
+		
+		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent e) {
+		        try {
+		            controlador.guardarEnArchivo();
+		        } catch (Exception ex) {
+		            System.err.println("No se pudo guardar: " + ex.getMessage());
+		        }
+		    }
+		});
+		
+		
 		JPanel panelIzquierdo = new JPanel();
 		panelIzquierdo.setPreferredSize(new Dimension(600, 600));
 		panelIzquierdo.setLayout(null);
@@ -102,6 +121,23 @@ public class VentanaPrincipal {
 		lblLocalidadesCargadas.setBounds(80, 250, 397, 23);
 		panelIzquierdo.add(lblLocalidadesCargadas);
 		
+		for(Localidad loc : localidadesCargadas) {
+			MapMarkerDot marcador =new MapMarkerDot(loc.getLatitud(), loc.getLongitud());
+			mapa.addMapMarker(marcador);
+			String texto = "Localidades cargadas: ";
+			if(controlador.getLocalidades().isEmpty()) {
+				texto += "ninguna";
+			} else {
+				for(int i = 0; i <controlador.getLocalidades().size(); i++)
+				{
+					texto += controlador.getLocalidades().get(i).getNombre();
+					if(i < controlador.getLocalidades().size()-1) texto += ", ";
+				}
+			}
+			lblLocalidadesCargadas.setText(texto);
+		}
+		
+		
 		JLabel lblNewLabel_4 = new JLabel("Planifica el costo de tu conexi\u00F3n:");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_4.setBounds(149, 11, 247, 32);
@@ -126,6 +162,7 @@ public class VentanaPrincipal {
 		textLongitud.setBounds(112, 173, 180, 20);
 		panelIzquierdo.add(textLongitud);
 		textLongitud.setColumns(10);
+		
 		
 		JButton btnAgregarLocalidad = new JButton("Agregar localidad");
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
@@ -188,12 +225,34 @@ public class VentanaPrincipal {
 		btnPlanificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				ResultadoPlanificacion resultado = controlador.planificar();
-				
-				dibujarConexiones(mapa, resultado);
-				
-				double costo = resultado.getCostoTotal();
-				lblCostoTotal.setText("Costo total: $" + costo);
+				SwingWorker<ResultadoPlanificacion, Void> worker = new SwingWorker<ResultadoPlanificacion, Void>() {
+				    
+				    @Override
+				    protected ResultadoPlanificacion doInBackground() throws Exception {
+				        return controlador.planificar();
+				    }
+
+				    @Override
+				    protected void done() {
+				        try {
+				            ResultadoPlanificacion resultado = get();
+				            
+				            lblCostoTotal.setText("Costo total: $ " + resultado.getCostoTotal());
+				            
+				            
+				            for (AristaConPeso arista : resultado.getConexiones()) {
+				                 dibujarConexiones(mapa, resultado);
+				            }
+				            mapa.repaint();
+
+				        } catch (Exception ex) {
+				            JOptionPane.showMessageDialog(frame, "Error al planificar: " + ex.getMessage());
+				        } finally {
+				            btnPlanificar.setEnabled(true);
+				        }
+				    }
+				};
+				worker.execute();
 			}
 
 			private void dibujarConexiones(JMapViewer mapa, ResultadoPlanificacion resultado) {
