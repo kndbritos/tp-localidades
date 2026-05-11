@@ -22,9 +22,7 @@ public class ControladorPlanificador {
 		this.archivoLocalidades = new ArchivoLocalidades("localidades.json");
 	}
 	
-	public List<Localidad> getLocalidades(){
-		return localidades;
-	}
+	public List<Localidad> getLocalidades(){ return localidades; }
 	
 	public void agregarLocalidad(String nombre, String provincia, String latitudText, String longitudText)
 	{
@@ -33,9 +31,7 @@ public class ControladorPlanificador {
 		validarProvincia(provincia);
 		validarCoordenada(latitudText);
 		validarCoordenada(longitudText);
-
-		
-						
+					
 		double latitud = Double.parseDouble(latitudText);
 		double longitud = Double.parseDouble(longitudText);
 		int idVertice = localidades.size();		
@@ -49,28 +45,22 @@ public class ControladorPlanificador {
 		GrafoConPeso grafo = servicio.generarGrafoCompleto(localidades, 1);
 		return servicio.planificar(grafo);
 	}
-
-
 	
 	//Validaciones para la interfaz
 	private void validarCoordenada(String coordenadaText) {
-		if (coordenadaText == null || coordenadaText.isEmpty()) 
-		{
+		if (coordenadaText == null || coordenadaText.isEmpty()) {
 			throw new IllegalArgumentException("La coordenada no puede estar vacia");
 		}
-		if (coordenadaText.contains(",")) 
-		{
+		if (coordenadaText.contains(",")) {
 			throw new IllegalArgumentException("Las coordenadas deben escribirse con '.', no con ','");
 		}
 		if(!coordenadaText.matches("-?\\d+(\\.\\d+)?")) {
 			throw new IllegalArgumentException("La coordenada solo puede ser numerica");
 		}
-
 	}
 
 	private void validarCantidadDeLocalidadesCargadas() {
-		if(localidades.size() < 2) 
-		{
+		if(localidades.size() < 2){
 			throw new IllegalArgumentException("Para poder planificar conexiones debe haber minimo 2 localidades cargadas");
 		}
 	}
@@ -106,26 +96,19 @@ public class ControladorPlanificador {
 	}
 
 	public void guardarEnArchivo() {
-		try {
-			
+		try {			
 			this.archivoLocalidades.guardar(localidades);
-		} catch (IOException e) {
-			
+		} catch (IOException e) {			
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 
 	public void cargarDesdeArchivo() {
-		try {
-			
+		try {			
 			this.localidades = this.archivoLocalidades.cargar();
-		} catch (IOException e) {
-			
+		} catch (IOException e) {			
 			e.printStackTrace();
-		}
-		
+		}	
 	}
-
 	
 }

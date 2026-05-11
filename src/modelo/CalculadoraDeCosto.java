@@ -17,22 +17,17 @@ public class CalculadoraDeCosto {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return RADIO_TIERRA * c; 
     }
-	
-	
+		
 	public double calcularCostoConexion(Localidad loc1, Localidad loc2, double costoPorKm) {
         
-        double distancia = calcularDistanciaEnKm(loc1, loc2);
-        
+        double distancia = calcularDistanciaEnKm(loc1, loc2);     
         double costoFinal = distancia * costoPorKm;
-
         if (distancia > distanciaParaRecargo) {
             costoFinal = costoFinal + (costoFinal * porcentajeRecargo);
         }
-
         if (!loc1.getProvincia().equals(loc2.getProvincia())) {
             costoFinal = costoFinal + costoFijo;
         }
-
         return costoFinal;
     }
 }

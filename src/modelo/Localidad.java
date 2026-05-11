@@ -29,8 +29,7 @@ public class Localidad {
         this.longitud = longitud;
         this.idVertice = idVertice;
     }
-	
-	
+		
 	public String getNombre() { return nombre; }
 	public String getProvincia() { return provincia; }
 	public double getLatitud() { return latitud; }

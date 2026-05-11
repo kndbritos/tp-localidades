@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class KruskalAGM {
 	private int[] padre;
-
-	
 	
 	private int buscar(int i) {
         while (this.padre[i] != i) {
@@ -21,12 +19,10 @@ public class KruskalAGM {
 	
 	private void unir(int i, int j) {
         int raizI = buscar(i);
-        int raizJ = buscar(j);
-        
+        int raizJ = buscar(j);       
         this.padre[raizI] = raizJ; 
     }
-	
-	
+		
 	private void inicializarUnionFind(int cantidadVertices) {
 		this.padre = new int[cantidadVertices];
 		
@@ -34,9 +30,7 @@ public class KruskalAGM {
 			this.padre[i] = i;
 		}
 	}
-	
-	
-	
+		
 	public Set<AristaConPeso> obtenerAGM(GrafoConPeso grafo) {
 		Set<AristaConPeso> aristasAGM = new HashSet<>();
 		
@@ -61,8 +55,7 @@ public class KruskalAGM {
 		
 		if (grafo.getTamanio() > 1 && aristasAGM.size() != grafo.getTamanio() - 1) {
 			throw new IllegalArgumentException("el grafo no es conexo. No es posible armar un AGM");
-		}
-		
+		}		
 		return aristasAGM;
 	}
 

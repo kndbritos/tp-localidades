@@ -17,12 +17,10 @@ public class ArchivoLocalidadesTest {
         List<Localidad> listaOriginal = new ArrayList<>();
         listaOriginal.add(new Localidad("Buenos Aires", "Buenos Aires", -34.6, -58.3, 0));
         listaOriginal.add(new Localidad("Rosario", "Santa Fe", -32.9, -60.6, 1));
-
         
         archivo.guardar(listaOriginal);
         List<Localidad> listaCargada = archivo.cargar();
-
-        
+       
         assertEquals(listaOriginal.size(), listaCargada.size());
         assertEquals(listaOriginal.get(0).getNombre(), listaCargada.get(0).getNombre());
     }

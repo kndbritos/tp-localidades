@@ -1,7 +1,5 @@
 package modelo;
 
-import java.util.List;
-
 import java.util.Set;
 
 public class ResultadoPlanificacion {
@@ -13,12 +11,7 @@ public class ResultadoPlanificacion {
 				this.costoTotal = costoTotal;
 			}
 			
-			public Set<AristaConPeso> getConexiones(){
-				return conexiones;
-			}
-			
-			public double getCostoTotal() {
-				return costoTotal;
-			}
+			public Set<AristaConPeso> getConexiones(){ return conexiones; }
+			public double getCostoTotal() { return costoTotal; }
 	
 }

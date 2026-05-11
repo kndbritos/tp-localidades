@@ -12,7 +12,6 @@ public class AristaConPesoTest {
 	public void aristaMenorPesoTest() {
 		AristaConPeso a1 = new AristaConPeso(0, 1, 2);
 		AristaConPeso a2 = new AristaConPeso(0, 1, 5);
-		//A1 es menor que A2
 		assertTrue(a1.compareTo(a2) < 0);
 	}
 	
@@ -20,7 +19,6 @@ public class AristaConPesoTest {
 	public void aristaMayorPesoTest() {
 		AristaConPeso a1 = new AristaConPeso(0, 1, 5);
 		AristaConPeso a2 = new AristaConPeso(0, 1, 2);
-		//A1 es mayor que A2
 		assertTrue(a1.compareTo(a2) > 0);
 	}
 	
@@ -28,7 +26,6 @@ public class AristaConPesoTest {
 	public void aristaConMismoPesoTest() {
 		AristaConPeso a1 = new AristaConPeso(0, 1, 5);
 		AristaConPeso a2 = new AristaConPeso(0, 2, 5);
-		//A1 pesa lo mismo que A2
 		assertTrue(a1.compareTo(a2) == 0);
 	}
 

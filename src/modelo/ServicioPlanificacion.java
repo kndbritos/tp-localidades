@@ -8,8 +8,7 @@ import java.util.Set;
 
 public class ServicioPlanificacion {
 	private CalculadoraDeCosto calculadora = new CalculadoraDeCosto();
-	
-	
+		
 	public GrafoConPeso generarGrafoCompleto(List<Localidad> localidades, double precioPorKm) {
 		GrafoConPeso grafo = new GrafoConPeso(localidades.size());
 		
@@ -22,35 +21,27 @@ public class ServicioPlanificacion {
 				
 				grafo.agregarArista(i, j, costoFinal);
 			}
-		}
-		
+		}		
 		return grafo;
 	}
 	
 	public ResultadoPlanificacion planificar(GrafoConPeso grafo) {
 
         KruskalAGM kruskal = new KruskalAGM();
-
         Set<AristaConPeso> conexiones = kruskal.obtenerAGM(grafo);
-
         double total = calcularCostoTotal(conexiones);
-
         return new ResultadoPlanificacion(conexiones, total);
     }
 
     private double calcularCostoTotal(Set<AristaConPeso> conexiones) {
-
         double total = 0;
-
         for (AristaConPeso arista : conexiones) {
             total += arista.getPeso();
-        }
-        
+        }       
         BigDecimal totalRedondeado =
                 new BigDecimal(total)
                         .setScale(2,
                                 RoundingMode.HALF_UP);
-
         return totalRedondeado.doubleValue();
     }
     

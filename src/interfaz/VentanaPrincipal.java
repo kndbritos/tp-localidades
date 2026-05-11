@@ -77,8 +77,7 @@ public class VentanaPrincipal {
 		
 		List <Localidad> localidadesCargadas = controlador.getLocalidades();
 		
-		
-		
+				
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -94,8 +93,7 @@ public class VentanaPrincipal {
 		JPanel panelIzquierdo = new JPanel();
 		panelIzquierdo.setPreferredSize(new Dimension(600, 600));
 		panelIzquierdo.setLayout(null);
-		
-		
+				
 		JLabel lblNombreLocalidad = new JLabel("Nombre:");
 		lblNombreLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNombreLocalidad.setBounds(10, 55, 65, 14);
@@ -167,8 +165,7 @@ public class VentanaPrincipal {
 		textLongitud.setBounds(112, 173, 180, 20);
 		panelIzquierdo.add(textLongitud);
 		textLongitud.setColumns(10);
-		
-		
+			
 		JButton btnAgregarLocalidad = new JButton("Agregar localidad");
 		btnAgregarLocalidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -178,7 +175,6 @@ public class VentanaPrincipal {
 				String latitud = textLatitud.getText();
 				String longitud = textLongitud.getText();
 				try {
-
 				    controlador.agregarLocalidad(
 				            nombre,
 				            provincia,
@@ -196,7 +192,6 @@ public class VentanaPrincipal {
 				    marcador.setName(ultima.getNombre());
 
 					mapa.addMapMarker(marcador);
-
 				} catch (IllegalArgumentException ex) {
 
 					 JOptionPane.showMessageDialog(
@@ -204,13 +199,11 @@ public class VentanaPrincipal {
 					            ex.getMessage(),
 					            "Error",
 					            JOptionPane.ERROR_MESSAGE);
-				}
-					
+				}					
 			}
 
 			private void actualizarLocalidadesCargadas() {
-			    StringBuilder sb = new StringBuilder("<html>Localidades cargadas:<br>");
-			    
+			    StringBuilder sb = new StringBuilder("<html>Localidades cargadas:<br>");		    
 			    if (controlador.getLocalidades().isEmpty()) {
 			        sb.append("ninguna");
 			    } else {
@@ -221,12 +214,11 @@ public class VentanaPrincipal {
 			            }
 			        }
 			    }
-
 			    sb.append("</html>");
-			    lblLocalidadesCargadas.setText(sb.toString());
-			    
+			    lblLocalidadesCargadas.setText(sb.toString());			    
 			}
 		});
+		
 		btnAgregarLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAgregarLocalidad.setBounds(80, 216, 195, 23);
 		panelIzquierdo.add(btnAgregarLocalidad);
@@ -245,14 +237,9 @@ public class VentanaPrincipal {
 				    @Override
 				    protected void done() {
 				        try {
-				            ResultadoPlanificacion resultado = get();
-				            
-				            lblCostoTotal.setText("Costo total: $ " + resultado.getCostoTotal());
-				            
-				            
-				            for (AristaConPeso arista : resultado.getConexiones()) {
-				                 dibujarConexiones(mapa, resultado);
-				            }
+				            ResultadoPlanificacion resultado = get();				            
+				            lblCostoTotal.setText("Costo total: $ " + resultado.getCostoTotal());				            
+				            dibujarConexiones(mapa, resultado);
 				            mapa.repaint();
 
 				        } catch (Exception ex) {

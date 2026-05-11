@@ -1,7 +1,5 @@
 package test;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import modelo.GrafoConPeso;
@@ -43,8 +41,5 @@ public class GrafoConPesoTest {
 		GrafoConPeso grafo = new GrafoConPeso(3);
 		grafo.agregarArista(1, 1, 2);	
 	}
-	
-
-
 	
 }
