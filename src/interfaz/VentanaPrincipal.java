@@ -21,6 +21,7 @@ import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.DefaultMapController;
 
 import controlador.ControladorPlanificador;
 import modelo.AristaConPeso;
@@ -32,6 +33,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class VentanaPrincipal {
 
@@ -63,6 +65,8 @@ public class VentanaPrincipal {
 
 	private void initialize() {
 		JMapViewer mapa = new JMapViewer();
+		DefaultMapController mapController = new DefaultMapController(mapa);
+		mapController.setMovementMouseButton(java.awt.event.MouseEvent.BUTTON1);
 		frame = new JFrame();
 		frame.setTitle("Conectando Ciudades");
 		frame.setBounds(100, 100, 850, 550);
@@ -118,7 +122,8 @@ public class VentanaPrincipal {
 		panelIzquierdo.add(lblCostoTotal);
 		
 		JLabel lblLocalidadesCargadas = new JLabel("Localidades cargadas: ninguna");
-		lblLocalidadesCargadas.setBounds(80, 250, 397, 23);
+		lblLocalidadesCargadas.setVerticalAlignment(SwingConstants.TOP);
+		lblLocalidadesCargadas.setBounds(302, 53, 288, 140);
 		panelIzquierdo.add(lblLocalidadesCargadas);
 		
 		for(Localidad loc : localidadesCargadas) {
@@ -204,17 +209,22 @@ public class VentanaPrincipal {
 			}
 
 			private void actualizarLocalidadesCargadas() {
-				String texto = "Localidades cargadas: ";
-				if(controlador.getLocalidades().isEmpty()) {
-					texto += "ninguna";
-				} else {
-					for(int i = 0; i <controlador.getLocalidades().size(); i++)
-					{
-						texto += controlador.getLocalidades().get(i).getNombre();
-						if(i < controlador.getLocalidades().size()-1) texto += ", ";
-					}
-				}
-				lblLocalidadesCargadas.setText(texto);
+			    StringBuilder sb = new StringBuilder("<html>Localidades cargadas:<br>");
+			    
+			    if (controlador.getLocalidades().isEmpty()) {
+			        sb.append("ninguna");
+			    } else {
+			        for (int i = 0; i < controlador.getLocalidades().size(); i++) {
+			            sb.append(controlador.getLocalidades().get(i).getNombre());
+			            if (i < controlador.getLocalidades().size() - 1) {
+			                sb.append("<br>");
+			            }
+			        }
+			    }
+
+			    sb.append("</html>");
+			    lblLocalidadesCargadas.setText(sb.toString());
+			    
 			}
 		});
 		btnAgregarLocalidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
