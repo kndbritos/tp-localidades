@@ -3,47 +3,52 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import modelo.ServicioPlanificacion;
+import modelo.ConfiguracionCostos;
 import modelo.GrafoConPeso;
 import modelo.Localidad;
 import modelo.ResultadoPlanificacion;
 
 public class ServicioPlanificacionTest {
+	private ServicioPlanificacion servicio;
+	private ConfiguracionCostos costos;
 
+	@Before
+	public void inicializar() {
+		servicio = new ServicioPlanificacion();
+		costos = new ConfiguracionCostos(100, 20000, 0.30);
+	}
+	
     @Test
-    public void generarGrafoCompletoDebeCrearAristas() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
+    public void generarGrafoCompletoDebeCrearAristas() {       
         servicio.agregarLocalidad(new Localidad("A", "Buenos Aires", -34.0, -58.0, 0));
         servicio.agregarLocalidad(new Localidad("B", "Cordoba", -31.0, -64.0, 1));
-
-        GrafoConPeso grafo = servicio.generarGrafoCompleto(100);
+        
+        GrafoConPeso grafo = servicio.generarGrafoCompleto(costos);
         assertNotNull(grafo);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void generarGrafoConCeroLocalidadesLanzaExcepcion() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
-        servicio.generarGrafoCompleto(100);
+        servicio.generarGrafoCompleto(costos);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void generarGrafoConUnaLocalidadLanzaExcepcion() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
         servicio.agregarLocalidad(new Localidad("A", "Buenos Aires", -34.0, -58.0, 0));
-        servicio.generarGrafoCompleto(100);
+        servicio.generarGrafoCompleto(costos);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void planificarConGrafoNuloLanzaExcepcion() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
         servicio.planificar(null);
     }
 
     @Test
     public void planificacionConGrafoVacioDebeTenerCostoCero() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
         GrafoConPeso grafo = new GrafoConPeso(0);
         ResultadoPlanificacion resultado = servicio.planificar(grafo);
         assertEquals(0, resultado.getCostoTotal(), 0.001);
@@ -52,7 +57,6 @@ public class ServicioPlanificacionTest {
 
     @Test
     public void calcularCostoTotalDebeSumarCorrectamente() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
         GrafoConPeso grafo = new GrafoConPeso(2);
         grafo.agregarArista(0, 1, 100);
         ResultadoPlanificacion resultado = servicio.planificar(grafo);
@@ -61,7 +65,6 @@ public class ServicioPlanificacionTest {
 
     @Test
     public void agmDebeTenerCantidadCorrectaDeAristas() {
-        ServicioPlanificacion servicio = new ServicioPlanificacion();
         GrafoConPeso grafo = new GrafoConPeso(3);
         grafo.agregarArista(0, 1, 10);
         grafo.agregarArista(1, 2, 20);

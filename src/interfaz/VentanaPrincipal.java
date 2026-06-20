@@ -45,6 +45,9 @@ public class VentanaPrincipal implements Observador {
     private JMapViewer mapa;
     private JLabel lblLocalidadesCargadas;
     private JLabel lblCostoTotal;
+    private JTextField textCostoPorKm;
+    private JTextField textCostoFijo;
+    private JTextField textPorcentajeRecargo;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -146,7 +149,7 @@ public class VentanaPrincipal implements Observador {
         
         lblCostoTotal = new JLabel("Costo total: $ -");
         lblCostoTotal.setFont(new Font("Tahoma", Font.BOLD, 20));
-        lblCostoTotal.setBounds(112, 350, 360, 32);
+        lblCostoTotal.setBounds(112, 443, 360, 32);
         panelIzquierdo.add(lblCostoTotal);
         
         lblLocalidadesCargadas = new JLabel("Localidades cargadas: ninguna");
@@ -178,7 +181,43 @@ public class VentanaPrincipal implements Observador {
         textLongitud.setBounds(112, 173, 180, 20);
         panelIzquierdo.add(textLongitud);
         textLongitud.setColumns(10);
-            
+        
+        JLabel lblCostoPorKm = new JLabel("Costo por KM: ");
+        lblCostoPorKm.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        lblCostoPorKm.setBounds(10, 301, 92, 20);
+        panelIzquierdo.add(lblCostoPorKm);
+        
+        JLabel lblCostoFijo = new JLabel("Costo fijo entre distintas provincias:");
+        lblCostoFijo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        lblCostoFijo.setBounds(10, 348, 217, 23);
+        panelIzquierdo.add(lblCostoFijo);
+        
+        JLabel lblPorcentajeRecargo = new JLabel("Porcentaje de recargo:");
+        lblPorcentajeRecargo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        lblPorcentajeRecargo.setBounds(251, 300, 145, 23);
+        panelIzquierdo.add(lblPorcentajeRecargo);
+        
+        JLabel lblCaracterPorcentaje = new JLabel("%");
+        lblCaracterPorcentaje.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        lblCaracterPorcentaje.setBounds(477, 306, 46, 14);
+        panelIzquierdo.add(lblCaracterPorcentaje);
+        
+        
+        textCostoPorKm = new JTextField();
+        textCostoPorKm.setBounds(112, 303, 97, 20);
+        panelIzquierdo.add(textCostoPorKm);
+        textCostoPorKm.setColumns(10);
+        
+        textCostoFijo = new JTextField();
+        textCostoFijo.setBounds(237, 351, 235, 20);
+        panelIzquierdo.add(textCostoFijo);
+        textCostoFijo.setColumns(10);      
+              
+        textPorcentajeRecargo = new JTextField();
+        textPorcentajeRecargo.setBounds(398, 303, 74, 20);
+        panelIzquierdo.add(textPorcentajeRecargo);
+        textPorcentajeRecargo.setColumns(10);
+                
         JButton btnAgregarLocalidad = new JButton("Agregar localidad");
         btnAgregarLocalidad.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -207,7 +246,11 @@ public class VentanaPrincipal implements Observador {
                 SwingWorker<ResultadoPlanificacion, Void> worker = new SwingWorker<ResultadoPlanificacion, Void>() {
                     @Override
                     protected ResultadoPlanificacion doInBackground() throws Exception {
-                        return controlador.planificar();
+                        return controlador.planificar(
+                        		textCostoPorKm.getText(),
+                        		textCostoFijo.getText(),
+                        		textPorcentajeRecargo.getText()
+                        		);
                     }
 
                     @Override
@@ -244,7 +287,7 @@ public class VentanaPrincipal implements Observador {
         });
         
         btnPlanificar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        btnPlanificar.setBounds(160, 290, 245, 23);
+        btnPlanificar.setBounds(149, 395, 245, 23);
         panelIzquierdo.add(btnPlanificar);
         
         JButton btnReiniciar = new JButton("Reiniciar");
@@ -265,6 +308,7 @@ public class VentanaPrincipal implements Observador {
         mapa.setDisplayPosition(new Coordinate(-38.4161, -63.6167), 4);
         
         frame.getContentPane().add(panelIzquierdo, BorderLayout.WEST);
+        
         frame.getContentPane().add(mapa, BorderLayout.CENTER);
     }
     

@@ -3,8 +3,6 @@ package modelo;
 public class CalculadoraDeCosto {
 
     private static final int RADIO_TIERRA = 6371;
-    private static final double costoFijo = 20000;
-    private static final double porcentajeRecargo = 0.40;
     private static final double distanciaParaRecargo = 300;
 
     private double calcularDistanciaEnKm(Localidad loc1, Localidad loc2) {
@@ -17,22 +15,22 @@ public class CalculadoraDeCosto {
         return RADIO_TIERRA * c;
     }
 
-    public double calcularCostoConexion(Localidad loc1, Localidad loc2, double costoPorKm) {
+    public double calcularCostoConexion(Localidad loc1, Localidad loc2, ConfiguracionCostos costos) {
         if (loc1 == null || loc2 == null) {
             throw new IllegalArgumentException("Las localidades no pueden ser nulas");
         }
-        if (costoPorKm < 0) {
-            throw new IllegalArgumentException("El costo por KM no puede ser negativo");
+        if (costos == null) {
+            throw new IllegalArgumentException("Los costos no pueden ser nulos");
         }
         
         double distancia = calcularDistanciaEnKm(loc1, loc2);
-        double costoFinal = distancia * costoPorKm;
+        double costoFinal = distancia * costos.getCostoPorKm();
         
         if (distancia > distanciaParaRecargo) {
-            costoFinal = costoFinal + (costoFinal * porcentajeRecargo);
+            costoFinal = costoFinal + (costoFinal * costos.getPorcentajeRecargo());
         }
-        if (!loc1.getProvincia().equals(loc2.getProvincia())) {
-            costoFinal = costoFinal + costoFijo;
+        if (!loc1.getProvincia().trim().equalsIgnoreCase(loc2.getProvincia().trim())) {
+            costoFinal = costoFinal + costos.getCostoFijoDistintaProvincia();
         }
         return costoFinal;
     }

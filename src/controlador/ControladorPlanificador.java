@@ -3,6 +3,7 @@ package controlador;
 import modelo.Localidad;
 import modelo.ResultadoPlanificacion;
 import modelo.ServicioPlanificacion;
+import modelo.ConfiguracionCostos;
 import modelo.GrafoConPeso;
 
 public class ControladorPlanificador {
@@ -27,8 +28,13 @@ public class ControladorPlanificador {
         modelo.agregarLocalidad(localidad);
     }
 
-    public ResultadoPlanificacion planificar() {
-        GrafoConPeso grafo = modelo.generarGrafoCompleto(1);
+    public ResultadoPlanificacion planificar(String costoPorKmText, String costoFijoText, String porcentajeRecargoText) {
+    	double costoPorKm = parsearValorNoNegativo(costoPorKmText, "El costo por KM");
+    	double costoFijo = parsearValorNoNegativo(costoFijoText, "El costo fijo por distinta provincia");
+    	double porcentajeRecargo = parsearPorcentaje(porcentajeRecargoText);
+    	
+    	ConfiguracionCostos costos = new ConfiguracionCostos(costoPorKm, costoFijo, porcentajeRecargo);
+        GrafoConPeso grafo = modelo.generarGrafoCompleto(costos);
         return modelo.planificar(grafo);
     }
 
@@ -68,5 +74,26 @@ public class ControladorPlanificador {
         if(!provincia.matches("[a-zA-ZАИМСЗаимсзЯя ]+")) {
             throw new IllegalArgumentException("La provincia solo puede contener letras");
         }
+    }
+    
+    private double parsearPorcentaje(String porcentajeText) {
+        double porcentaje = parsearValorNoNegativo(porcentajeText, "El porcentaje de recargo");
+        return porcentaje / 100;
+    }
+
+    private double parsearValorNoNegativo(String texto, String nombreCampo) {
+        if (texto == null || texto.trim().isEmpty()) {
+            throw new IllegalArgumentException(nombreCampo + " no puede estar vacio");
+        }
+
+        if (texto.contains(",")) {
+            throw new IllegalArgumentException(nombreCampo + " debe escribirse con '.', no con ','");
+        }
+
+        if (!texto.matches("\\d+(\\.\\d+)?")) {
+            throw new IllegalArgumentException(nombreCampo + " debe ser numerico");
+        }
+
+        return Double.parseDouble(texto);
     }
 }

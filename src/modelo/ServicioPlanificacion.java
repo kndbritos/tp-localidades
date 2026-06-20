@@ -66,7 +66,7 @@ public class ServicioPlanificacion {
         }
     }
 
-    public GrafoConPeso generarGrafoCompleto(double precioPorKm) {
+    public GrafoConPeso generarGrafoCompleto(ConfiguracionCostos costos) {
         if(localidades.size() < 2){
             throw new IllegalArgumentException("Para poder planificar conexiones debe haber minimo 2 localidades cargadas");
         }
@@ -76,7 +76,7 @@ public class ServicioPlanificacion {
             for (int j = i+1; j < localidades.size(); j++) {
                 Localidad origen = localidades.get(i);
                 Localidad destino = localidades.get(j);
-                double costoFinal = calculadora.calcularCostoConexion(origen, destino, precioPorKm);
+                double costoFinal = calculadora.calcularCostoConexion(origen, destino, costos);
                 grafo.agregarArista(i, j, costoFinal);
             }
         }
