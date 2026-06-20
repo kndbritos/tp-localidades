@@ -1,10 +1,8 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import modelo.CalculadoraDeCosto;
 import modelo.Localidad;
 
@@ -23,7 +21,6 @@ public class CalculadoraDeCostoTest {
 	@Before
 	public void setUp() {
 		calculadora = new CalculadoraDeCosto();
-
 		buenosAires = new Localidad( "Buenos Aires", "Buenos Aires", -34.6037, -58.3816, 0 );
 		rosario = new Localidad( "Rosario", "Santa Fe", -32.9442, -60.6505, 1 );
 		cordoba = new Localidad( "Cordoba", "Cordoba", -31.4201, -64.1888, 2 );
@@ -35,21 +32,33 @@ public class CalculadoraDeCostoTest {
 		margenDeError = 10;
 	}
 	
-	//Distancia entre Bs As y Rosario: aprox 290 km
+	@Test(expected = IllegalArgumentException.class)
+	public void calcularCostoConOrigenNuloLanzaExcepcionTest() {
+		calculadora.calcularCostoConexion(null, rosario, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void calcularCostoConDestinoNuloLanzaExcepcionTest() {
+		calculadora.calcularCostoConexion(buenosAires, null, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void calcularCostoConPrecioPorKmNegativoLanzaExcepcionTest() {
+		calculadora.calcularCostoConexion(buenosAires, rosario, -5.0);
+	}
+
 	@Test
 	public void distintaProvinciaSumaCostoFijoTest() {
 		double costo = calculadora.calcularCostoConexion(buenosAires, rosario, 1);
 		assertTrue(costo > costoFijo);
 	}
 
-	//Distancia entre Bs As y La Plata: aprox 55 km
 	@Test
 	public void mismaProvinciaSinCostoFijoTest() {
 		double costo = calculadora.calcularCostoConexion(buenosAires, laPlata, 1);
 		assertTrue(costo < costoFijo);
 	}
 	
-	//Distancia entre Bs As y Cordoba: aprox 647 km - 
 	@Test
 	public void distintaProvinciaConMas300kmTienenPorcentajeyCostoFijoTest() {
 		double costo = calculadora.calcularCostoConexion(buenosAires, cordoba, 1);
@@ -57,7 +66,6 @@ public class CalculadoraDeCostoTest {
 		assertEquals(costoEsperado, costo, margenDeError);
 	}
 	
-	//Distancia entre Bs As y MarDelPlata: aprox 381 km
 	@Test
 	public void mismaProvinciaConMas300kmTienenPorcentajeyNoCostoFijoTest() {
 		double costo = calculadora.calcularCostoConexion(buenosAires, marDelPlata, 1);

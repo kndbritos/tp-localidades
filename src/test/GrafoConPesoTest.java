@@ -1,10 +1,14 @@
 package test;
 
 import org.junit.Test;
-
 import modelo.GrafoConPeso;
 
 public class GrafoConPesoTest {
+
+	@Test(expected = IllegalArgumentException.class)
+	public void crearGrafoConTamanioNegativoTest() {
+		new GrafoConPeso(-5);
+	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void primerVerticeNegativoTest() {
@@ -41,5 +45,4 @@ public class GrafoConPesoTest {
 		GrafoConPeso grafo = new GrafoConPeso(3);
 		grafo.agregarArista(1, 1, 2);	
 	}
-	
 }
