@@ -1,13 +1,10 @@
 package test;
+
 import modelo.AristaConPeso;
-
 import modelo.ResultadoPlanificacion;
-
 import static org.junit.Assert.*;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.Test;
 
 public class ResultadoPlanificacionTest {
@@ -19,7 +16,6 @@ public class ResultadoPlanificacionTest {
 		ResultadoPlanificacion resultado= new ResultadoPlanificacion(conexiones, 100);
 		assertNotNull(resultado.getConexiones());
 		assertEquals(1, resultado.getConexiones().size());
-		
 	}
 	
 	@Test 
@@ -31,23 +27,30 @@ public class ResultadoPlanificacionTest {
 
 	@Test
 	public void getConexionesDebeRetornarLasAristasCorrectas() {
+        Set<AristaConPeso> conexiones = new HashSet<>();
+        AristaConPeso arista = new AristaConPeso(0, 1, 100);
+        conexiones.add(arista);
 
-	        Set<AristaConPeso> conexiones = new HashSet<>();
-	        AristaConPeso arista = new AristaConPeso(0, 1, 100);
-	        conexiones.add(arista);
-
-	        ResultadoPlanificacion resultado = new ResultadoPlanificacion(conexiones, 100);
-	        assertTrue(resultado.getConexiones().contains(arista));
+        ResultadoPlanificacion resultado = new ResultadoPlanificacion(conexiones, 100);
+        assertTrue(resultado.getConexiones().contains(arista));
 	}
 
 	@Test
 	public void resultadoPuedeCrearseSinConexiones() {
-
-	        Set<AristaConPeso> conexiones = new HashSet<>();
-	        ResultadoPlanificacion resultado = new ResultadoPlanificacion(conexiones, 0);
-
-	        assertEquals(0, resultado.getConexiones().size());
-
-	        assertEquals(0, resultado.getCostoTotal(), 0.001);
+        Set<AristaConPeso> conexiones = new HashSet<>();
+        ResultadoPlanificacion resultado = new ResultadoPlanificacion(conexiones, 0);
+        assertEquals(0, resultado.getConexiones().size());
+        assertEquals(0, resultado.getCostoTotal(), 0.001);
     }
+
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorConConexionesNulasLanzaExcepcionTest() {
+		new ResultadoPlanificacion(null, 100.0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorConCostoNegativoLanzaExcepcionTest() {
+		Set<AristaConPeso> conexiones = new HashSet<>();
+		new ResultadoPlanificacion(conexiones, -50.0);
+	}
 }

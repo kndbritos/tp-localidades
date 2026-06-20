@@ -1,0 +1,16 @@
+[
+  {
+    "nombre": "Buenos Aires",
+    "provincia": "Buenos Aires",
+    "latitud": -34.6,
+    "longitud": -58.3,
+    "idVertice": 0
+  },
+  {
+    "nombre": "Rosario",
+    "provincia": "Santa Fe",
+    "latitud": -32.9,
+    "longitud": -60.6,
+    "idVertice": 1
+  }
+]
