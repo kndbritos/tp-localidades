@@ -81,4 +81,11 @@ public class CalculadoraDeCostoTest {
 		double costoEsperado = costoBase + costoBase * porcentajeRecargo;
 		assertEquals(costoEsperado, costo, margenDeError);
 	}
+	
+	@Test
+	public void provinciasIgualesConMayusculasYEspaciosNoSumanCostoFijoTest() {
+		Localidad buenosAiresConEspacio = new Localidad("Otra BA", " buenos aires ", -34.6037, -58.3816, 5);
+		double costo = calculadora.calcularCostoConexion(buenosAires, buenosAiresConEspacio, costos);
+		assertTrue(costo < costos.getCostoFijoDistintaProvincia());
+	}
 }

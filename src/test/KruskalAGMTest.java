@@ -51,4 +51,22 @@ public class KruskalAGMTest {
 		KruskalAGM kruskal = new KruskalAGM();
 		kruskal.obtenerAGM(null);
 	}
+	
+	@Test
+	public void grafoConUnVerticeDevuelveAGMVacioTest() {
+	    GrafoConPeso grafo = new GrafoConPeso(1);
+	    KruskalAGM kruskal = new KruskalAGM();
+	    Set<AristaConPeso> resultado = kruskal.obtenerAGM(grafo);
+
+	    assertEquals(0, resultado.size());
+	}
+	
+	@Test
+	public void grafoConCeroVerticesDevuelveAGMVacioTest() {
+	    GrafoConPeso grafo = new GrafoConPeso(0);
+	    KruskalAGM kruskal = new KruskalAGM();
+	    Set<AristaConPeso> resultado = kruskal.obtenerAGM(grafo);
+
+	    assertEquals(0, resultado.size());
+	}
 }

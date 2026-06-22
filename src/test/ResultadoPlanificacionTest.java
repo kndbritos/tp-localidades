@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ResultadoPlanificacionTest {
 
 	@Test
-	public void constructorConexiones() {
+	public void constructorConexionesTest() {
 		Set<AristaConPeso> conexiones=new HashSet<>();
 		conexiones.add(new AristaConPeso(0,1,100));
 		ResultadoPlanificacion resultado= new ResultadoPlanificacion(conexiones, 100);
@@ -19,14 +19,14 @@ public class ResultadoPlanificacionTest {
 	}
 	
 	@Test 
-	public void constructorCostoTotal() {
+	public void constructorCostoTotalTest() {
 		Set<AristaConPeso> conexiones=new HashSet<>();
 		ResultadoPlanificacion resultado= new ResultadoPlanificacion(conexiones, 250.5);
 		assertEquals(250.5, resultado.getCostoTotal(),0.001);
 	}
 
 	@Test
-	public void getConexionesDebeRetornarLasAristasCorrectas() {
+	public void getConexionesDebeRetornarLasAristasCorrectasTest() {
         Set<AristaConPeso> conexiones = new HashSet<>();
         AristaConPeso arista = new AristaConPeso(0, 1, 100);
         conexiones.add(arista);
@@ -36,7 +36,7 @@ public class ResultadoPlanificacionTest {
 	}
 
 	@Test
-	public void resultadoPuedeCrearseSinConexiones() {
+	public void resultadoPuedeCrearseSinConexionesTest() {
         Set<AristaConPeso> conexiones = new HashSet<>();
         ResultadoPlanificacion resultado = new ResultadoPlanificacion(conexiones, 0);
         assertEquals(0, resultado.getConexiones().size());
